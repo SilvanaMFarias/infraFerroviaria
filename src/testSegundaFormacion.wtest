@@ -1,0 +1,32 @@
+import vagones.*
+import formacion.*
+
+describe "Test Segunda Formacion"{
+	
+	const formacion2 = new Formacion()
+	const vagon1 = new VagonDeCarga(cargaMaximaIdeal=8000,cantMaderasSueltas=1)
+	const vagon2 = new VagonDormitorio(cantCompartimientos=15,cantCamasPorCompartimiento=4)
+	
+	method initialize(){
+		formacion2.agregarALaFormacion(vagon1)
+		formacion2.agregarALaFormacion(vagon2)
+	}
+	
+		
+	test "Mantenimiento"{
+		assert.equals(60,formacion2.pasajerosQuePuedeLlevar())
+		assert.equals(1,formacion2.cantVagonesPopulares())
+		assert.that(formacion2.esFormacionCarguera())
+		assert.equals(900,formacion2.dispersionDePesos())
+		assert.equals(1,formacion2.cantBanios())
+		formacion2.hacerMantenimientoAVagones()
+		assert.equals(60,formacion2.pasajerosQuePuedeLlevar())
+		assert.equals(1,formacion2.cantVagonesPopulares())
+		assert.that(formacion2.esFormacionCarguera())
+		assert.equals(500,formacion2.dispersionDePesos())
+		assert.equals(1,formacion2.cantBanios())
+	}
+	
+
+}
+	

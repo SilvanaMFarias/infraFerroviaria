@@ -1,0 +1,64 @@
+import vagones.*
+import formacion.*
+
+describe "Test Primera Formacion"{
+	
+	const formacion1 = new Formacion()
+	const vagon1 = new VagonDePasajeros(largo =10,ancho=4,tieneBanio = true,estaOrdenado = true)
+	const vagon2 = new VagonDePasajeros(largo =7,ancho=2,tieneBanio = false,estaOrdenado = false)	
+	const vagon3 = new VagonDeCarga(cargaMaximaIdeal=6800,cantMaderasSueltas=5)
+	const vagon4 = new VagonDormitorio(cantCompartimientos=8,cantCamasPorCompartimiento=3)
+	
+	method initialize(){
+		formacion1.agregarALaFormacion(vagon1)
+		formacion1.agregarALaFormacion(vagon2)
+		formacion1.agregarALaFormacion(vagon3)
+		formacion1.agregarALaFormacion(vagon4)
+	}
+	
+	test "Cantidad de Vagones" {
+		assert.equals(4,formacion1.vagones().size())
+	}
+	
+	test "Vagón 1"{
+		assert.equals(100,vagon1.cantMaxPasajeros())
+		assert.equals(10300,vagon1.pesoMaximo())
+		assert.equals(300,vagon1.cantMaxCarga())
+		assert.that(vagon1.tieneBanio())
+	}
+	
+	test "Vagón 2"{
+		assert.equals(41,vagon2.cantMaxPasajeros())
+		assert.equals(6080,vagon2.pesoMaximo())
+		assert.equals(800,vagon2.cantMaxCarga())
+		assert.notThat(vagon2.tieneBanio())
+	}
+	
+	test "Vagón 3"{
+		assert.equals(0,vagon3.cantMaxPasajeros())
+		assert.equals(6300,vagon3.pesoMaximo())
+		assert.equals(4800,vagon3.cantMaxCarga())
+		assert.notThat(vagon3.tieneBanio())
+	}
+	
+	test "Vagón 4"{
+		assert.equals(24,vagon4.cantMaxPasajeros())
+		assert.equals(7120,vagon4.pesoMaximo())
+		assert.equals(1200,vagon4.cantMaxCarga())
+		assert.that(vagon4.tieneBanio())
+	}
+	
+	test "Mantenimiento"{
+		assert.equals(165,formacion1.pasajerosQuePuedeLlevar())
+		assert.equals(1,formacion1.cantVagonesPopulares())
+		assert.notThat(formacion1.esFormacionCarguera())
+		assert.equals(4220,formacion1.dispersionDePesos())
+		assert.equals(2,formacion1.cantBanios())
+		formacion1.hacerMantenimientoAVagones()
+		assert.equals(180,formacion1.pasajerosQuePuedeLlevar())
+		assert.equals(2,formacion1.cantVagonesPopulares())
+		assert.notThat(formacion1.esFormacionCarguera())
+		assert.equals(3200,formacion1.dispersionDePesos())
+		assert.equals(2,formacion1.cantBanios())
+	}
+}
